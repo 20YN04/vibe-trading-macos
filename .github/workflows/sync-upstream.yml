@@ -1,0 +1,47 @@
+name: Sync Upstream
+
+on:
+  schedule:
+    - cron: "0 8 * * *" # daily at 08:00 UTC
+  workflow_dispatch: # manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Fetch upstream
+        run: |
+          git remote add upstream https://github.com/HKUDS/Vibe-Trading.git
+          git fetch upstream main
+
+      - name: Check for new commits
+        id: check
+        run: |
+          BEHIND=$(git rev-list main..upstream/main --count)
+          echo "behind=$BEHIND" >> $GITHUB_OUTPUT
+          echo "Upstream commits behind: $BEHIND"
+
+      - name: Create sync branch
+        if: steps.check.outputs.behind != '0'
+        run: |
+          git checkout -b sync/upstream-$(date +%Y%m%d)
+          git merge upstream/main --no-edit
+          git push origin sync/upstream-$(date +%Y%m%d)
+
+      - name: Create Pull Request
+        if: steps.check.outputs.behind != '0'
+        run: |
+          gh pr create \
+            --title "sync: upstream $(date +%Y-%m-%d)" \
+            --body "Auto-sync from [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading).\n\n${{ steps.check.outputs.behind }} new upstream commits.\n\nReview for macOS ARM compat before merging." \
+            --base main \
+            --head sync/upstream-$(date +%Y%m%d) \
+            --label upstream
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
