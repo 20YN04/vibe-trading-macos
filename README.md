@@ -234,6 +234,32 @@ It is designed for research, simulation, and backtesting — and, when you choos
 | **Put research into IM channels** | Run the same session runtime through WebSocket, Telegram, Slack, Discord, Matrix, WhatsApp, Signal, QQ/NapCat, WeChat/WeCom, Feishu/Lark, DingTalk, Teams, email, and Mochat with CLI, REST, and Web UI controls. |
 | **Ship usable artifacts** | Reports, TradingView Pine Script, TDX, MetaTrader 5, MCP tools, and later research sessions. |
 | **Bench a pre-built alpha zoo** | One-line IC + alive/reversed/dead categorisation across 456 alphas (Qlib 158 + Kakushadze 101 + GTJA 191 + FF5 + Carhart) on your universe. |
+| **Build your quant portfolio** | 8 ready-to-run project templates that prove you can build real trading infra — the exact skills quant recruiters look for. → [`portfolio/`](portfolio/) |
+
+---
+
+## 📊 Portfolio Projects
+
+This fork ships with **8 ready-to-run research prompts** based on [@macroglide's](https://www.instagram.com/p/DZtFyvpjoHz/) *"Projects That Actually Get You Hired"*:
+
+| # | Project | Prompt | Skills demonstrated |
+|---|---------|--------|---------------------|
+| 1 | ML Alpha Model | [`ml-alpha-model.txt`](portfolio/ml-alpha-model.txt) | XGBoost, feature engineering, IC analysis |
+| 2 | Options Pricing | [`options-pricing.txt`](portfolio/options-pricing.txt) | Black-Scholes, Greeks, volatility |
+| 3 | Statistical Arbitrage | [`stat-arb.txt`](portfolio/stat-arb.txt) | Cointegration, pairs trading |
+| 4 | Factor Model | [`factor-model.txt`](portfolio/factor-model.txt) | Multi-factor, portfolio construction |
+| 5 | Risk Engine | [`risk-engine.txt`](portfolio/risk-engine.txt) | VaR, CVaR, stress testing |
+| 6 | Crypto Arbitrage | [`crypto-arb.txt`](portfolio/crypto-arb.txt) | Cross-exchange, execution simulation |
+| 7 | HFT Simulator | [`hft-simulator.txt`](portfolio/hft-simulator.txt) | Order book, latency modeling |
+| 8 | Portfolio Optimizer | [`portfolio-optimizer.txt`](portfolio/portfolio-optimizer.txt) | Mean-variance, constraints |
+
+```bash
+# Run one project
+vibe-trading run -p "$(cat portfolio/ml-alpha-model.txt)" --max-iter 15
+
+# Run all 8
+./portfolio/run-all.sh
+```
 
 ---
 
