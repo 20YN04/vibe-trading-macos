@@ -9,7 +9,7 @@
 <h1 align="center">Vibe-Trading: Your Personal Trading Agent</h1>
 
 <p align="center">
-  <b>One Command to Empower Your Agent with Comprehensive Trading Capabilities</b>
+  <b>macOS ARM fork — native Apple Silicon support</b>
 </p>
 
 <p align="center">
@@ -45,6 +45,30 @@
 <p align="center">
   <a href="#-quick-start"><img src="assets/pip-install.svg" height="45" alt="pip install vibe-trading-ai"></a>
 </p>
+
+---
+
+> **🍎 macOS ARM fork** — This is a fork of [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) with **Apple Silicon native support**.
+>
+> Upstream Vibe-Trading uses worker threads for readonly tool execution. On macOS ARM, Apple's Accelerate BLAS framework crashes (bus error) when called from multiple Python threads simultaneously because numpy C extensions release the GIL during BLAS operations.
+>
+> **3 patches fix this** (zero impact on Linux/Windows — all gated behind `sys.platform == "darwin"`):
+>
+> | File | Fix |
+> |------|-----|
+> | `agent/src/__init__.py` | Sets `VECLIB_MAXIMUM_THREADS=1` and all BLAS env vars **before** numpy/pandas load |
+> | `agent/src/agent/loop.py` | Forces main-thread tool execution — `_is_tool_readonly()` returns `False` on macOS |
+> | `pyproject.toml` | Pins `yfinance>=0.2.30,<1.0` — yfinance 0.2.x uses stable code paths on ARM |
+>
+> **Verified working on Apple Silicon (M-series):** crypto data, backtesting, Alpha Zoo benchmarks, US equity data via yfinance. Same API, same commands, zero crashes.
+>
+> ```bash
+> git clone https://github.com/20YN04/vibe-trading-macos.git
+> cd vibe-trading-macos
+> python3.11 -m venv .venv && source .venv/bin/activate
+> pip install -e .
+> vibe-trading init
+> ```
 
 ---
 
@@ -436,10 +460,13 @@ https://github.com/user-attachments/assets/3754a414-c3ee-464f-b1e8-78e1a74fbd30
 
 ## 🚀 Quick Start
 
-### One-line install (PyPI)
+### One-line install (clone)
 
 ```bash
-pip install vibe-trading-ai
+git clone https://github.com/20YN04/vibe-trading-macos.git
+cd vibe-trading-macos
+python3.11 -m venv .venv && source .venv/bin/activate
+pip install -e .
 ```
 
 Then run a first research task:
@@ -449,7 +476,9 @@ vibe-trading init
 vibe-trading run -p "Backtest a BTC-USDT 20/50 moving-average strategy for 2024 and summarize return and drawdown"
 ```
 
-> **Upgrading from an older version?** 0.1.10 moved to LangChain 1.x. If imports break after `pip install -U vibe-trading-ai` over a pre-0.1.10 install (e.g. langgraph fails to import), recreate the venv or run `pip install --force-reinstall vibe-trading-ai`. A fresh install is unaffected.
+> **🍎 macOS ARM:** This fork includes native Apple Silicon support. The BLAS threading fixes in `src/__init__.py` prevent bus errors on M-series Macs. See the [fork notice](#) above for details.
+>
+> **Upstream PyPI:** The official `vibe-trading-ai` package from HKUDS works on Linux/Windows and Docker. This fork is for native macOS ARM usage.
 
 > **Package name vs commands:** The PyPI package is `vibe-trading-ai`. Once installed, you get three commands:
 >
@@ -508,17 +537,17 @@ Your data survives updates: persistent memory, the cross-session search index, u
 ### Path B: Local install
 
 ```bash
-git clone https://github.com/HKUDS/Vibe-Trading.git
-cd Vibe-Trading
-python -m venv .venv
+git clone https://github.com/20YN04/vibe-trading-macos.git
+cd vibe-trading-macos
+python3.11 -m venv .venv
 
 # Activate
 source .venv/bin/activate          # Linux / macOS
 # .venv\Scripts\Activate.ps1       # Windows PowerShell
 
 pip install -e .
-cp agent/.env.example agent/.env   # Edit — set your LLM provider API key
-vibe-trading                       # Launch interactive TUI
+# Config already exists? Skip. Otherwise:
+vibe-trading init                  # Interactive .env setup
 ```
 
 <details>
