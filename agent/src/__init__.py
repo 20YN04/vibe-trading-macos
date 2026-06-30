@@ -5,6 +5,13 @@ macOS ARM compatibility layer — loaded before any numpy/pandas import.
 import os
 import sys
 
+# ── macOS ARM: friendly error messages + BLAS thread safety ──────
+# Must run before ANY numpy/pandas import. The _macos_errors module
+# sets BLAS env vars AND installs a SIGBUS handler that explains the
+# crash instead of showing a cryptic "Bus error: 10".
+if sys.platform == "darwin":
+    from src._macos_errors import _ensure_blas_env  # noqa: F401 — side-effect import
+
 # ── macOS ARM: Apple Accelerate BLAS threading workaround ──────────────
 # On Apple Silicon, numpy uses Apple's Accelerate framework for BLAS.
 # Accelerate's internal threading crashes (bus error) when called from

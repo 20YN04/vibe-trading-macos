@@ -1,0 +1,34 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: detect-private-key
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.0
+    hooks:
+      - id: ruff
+        args: ["--fix", "--select=E,F,I,N,W"]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: no-env-files
+        name: block .env commits
+        entry: scripts/block-env.sh
+        language: system
+        pass_filenames: false
+
+      - id: macos-compat-check
+        name: verify macOS patches intact
+        entry: python scripts/verify-macos-patches.py
+        language: python
+        pass_filenames: false
+        files: "agent/src/(__init__|agent/loop|preflight)\\.py$"
