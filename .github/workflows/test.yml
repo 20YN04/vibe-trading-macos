@@ -101,15 +101,25 @@ jobs:
           print(f'AAPL fast_info OK: \${price:.2f}')
           "
 
-      - name: Smoke test — ccxt Binance fetch (no bus error)
+      - name: Smoke test — ccxt crypto fetch (no bus error)
         run: |
           python -c "
-          import ccxt
-          exchange = ccxt.binance({'enableRateLimit': True})
-          ticker = exchange.fetch_ticker('BTC/USDT')
-          price = ticker['last']
-          assert price > 1000, f'Expected BTC > 1000, got {price}'
-          print(f'BTC/USDT OK: \${price:.2f}')
+          import ccxt, sys
+          exchanges = [
+              ccxt.okx({'enableRateLimit': True}),
+              ccxt.bybit({'enableRateLimit': True}),
+              ccxt.kraken({'enableRateLimit': True}),
+          ]
+          for ex in exchanges:
+              try:
+                  ticker = ex.fetch_ticker('BTC/USDT')
+                  price = ticker['last']
+                  assert price > 1000, f'Expected BTC > 1000, got {price}'
+                  print(f'{ex.id} BTC/USDT OK: \${price:.2f}')
+                  sys.exit(0)
+              except Exception as e:
+                  print(f'{ex.id} failed: {type(e).__name__}')
+          raise SystemExit('All exchanges failed — likely geoblocked from GitHub Actions IP')
           "
 
       - name: Run unit tests
