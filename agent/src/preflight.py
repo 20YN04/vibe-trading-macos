@@ -155,20 +155,7 @@ def _check_okx() -> CheckResult:
 
 
 def _check_yfinance() -> CheckResult:
-    """Check yfinance availability.
-
-    On macOS ARM, yfinance's fast_info path can trigger Apple Accelerate
-    bus errors. The check is skipped on macOS; yfinance remains available
-    for actual data loading (which uses different code paths).
-    """
-    import sys
-    if sys.platform == "darwin":
-        return CheckResult(
-            name="yfinance",
-            status="skipped",
-            message="macOS ARM — check skipped (Accelerate BLAS compat)",
-            impact="US/HK equity backtest may be limited",
-        )
+    """Check yfinance availability."""
     try:
         import yfinance  # noqa: F401
     except ImportError:
