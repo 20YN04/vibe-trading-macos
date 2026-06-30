@@ -1,0 +1,15 @@
+Trade journal shadow account analysis.
+
+Upload your broker export CSV. The agent will:
+
+1. Extract your trading rules from historical trades
+2. Build a Shadow Account: what would a rule-based system have done?
+3. Diagnose behavioral biases:
+   - Disposition effect: selling winners too early, holding losers too long
+   - Overtrading: excessive turnover hurting returns
+   - Anchoring: holding positions past rational exit points
+   - Chasing momentum: buying after large moves
+4. Compare: your actual P&L vs Shadow Account P&L
+5. Output: bias report, missed opportunity count, counterfactual P&L
+
+Goal: identify 1-2 concrete behavioral improvements for your next 10 trades.

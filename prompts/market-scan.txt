@@ -1,0 +1,9 @@
+Daily market scan of top 10 crypto by market cap.
+
+Steps:
+1. Fetch latest prices for BTC, ETH, SOL, BNB, XRP, ADA, DOGE, AVAX, DOT, MATIC (ccxt via get_market_data)
+2. Calculate 24h change %, 7d change %, 30d volatility
+3. Identify: top 3 gainers, top 3 losers, highest volatility
+4. Output: summary table with price, changes, volume, volatility rank
+
+Keep it concise. Focus on actionable insights.

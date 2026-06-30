@@ -1,0 +1,12 @@
+Quick strategy backtest. Replace SYMBOL and PARAMS with your values.
+
+Backtest an {SMA|EMA} crossover strategy on {SYMBOL}:
+
+- Fetch 2 years of daily OHLCV from {ccxt|yfinance}
+- Generate signal: buy when fast MA crosses above slow MA, sell when below
+- Fast MA: {10|20} days, Slow MA: {50|100} days  
+- Run backtest with $10,000 initial capital, 0.1% fee
+- Output: total return, Sharpe, max drawdown, win rate, equity curve description
+- Compare against buy-and-hold benchmark
+
+Goal: Sharpe > 0.5, max drawdown < 40%.

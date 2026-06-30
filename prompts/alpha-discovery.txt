@@ -1,0 +1,17 @@
+Alpha factor discovery run.
+
+Benchmark all 4 alpha zoos on {UNIVERSE} for the period {YYYY-YYYY}:
+
+1. qlib158 — Microsoft Qlib factors
+2. alpha101 — Kakushadze formulaic alphas
+3. gtja191 — Guotai Junan short-horizon factors
+4. academic — Fama-French 5 + Carhart + Amihud + Harvey-Siddique
+
+For each zoo, report:
+- Top 5 alphas by Information Ratio
+- Alive/reversed/dead classification
+- IC mean, IC std, hit rate for top performers
+
+Cross-reference: which themes (momentum, value, reversal, quality, volatility, liquidity, volume) work on this universe? Which are dead?
+
+Goal: find 3-5 alphas with IR > 0.3 on this universe.
