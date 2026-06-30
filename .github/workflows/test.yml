@@ -54,3 +54,63 @@ jobs:
         run: |
           cd frontend
           npx vitest run --reporter=verbose
+
+  # ── macOS ARM: verifies Apple Silicon fixes ──────────────────────────
+  macos-arm:
+    runs-on: macos-latest
+    timeout-minutes: 20
+    env:
+      VECLIB_MAXIMUM_THREADS: "1"
+      ACCELERATE_NEW_LAPACK: "0"
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Verify BLAS env vars are set
+        run: |
+          python -c "
+          import os, sys
+          assert sys.platform == 'darwin', 'This job must run on macOS'
+          for var in ['VECLIB_MAXIMUM_THREADS', 'OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'NUMEXPR_NUM_THREADS']:
+              val = os.environ.get(var, 'NOT SET')
+              print(f'  {var}={val}')
+              assert val == '1', f'{var} should be 1, got {val}'
+          print('All BLAS env vars OK')
+          "
+
+      - name: Smoke test — yfinance fast_info (no bus error)
+        run: |
+          python -c "
+          import yfinance as yf
+          t = yf.Ticker('AAPL')
+          info = t.fast_info
+          price = info.last_price
+          assert price > 0, f'Expected positive price, got {price}'
+          print(f'AAPL fast_info OK: \${price:.2f}')
+          "
+
+      - name: Smoke test — ccxt Binance fetch (no bus error)
+        run: |
+          python -c "
+          import ccxt
+          exchange = ccxt.binance({'enableRateLimit': True})
+          ticker = exchange.fetch_ticker('BTC/USDT')
+          price = ticker['last']
+          assert price > 1000, f'Expected BTC > 1000, got {price}'
+          print(f'BTC/USDT OK: \${price:.2f}')
+          "
+
+      - name: Run unit tests
+        run: pytest --ignore=agent/tests/e2e_backtest --ignore=agent/tests/test_e2e_harness_v2.py --tb=short -q -m "not integration"
