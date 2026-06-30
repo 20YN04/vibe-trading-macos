@@ -1,0 +1,11 @@
+Build a Statistical Arbitrage Backtester for crypto pairs.
+
+Steps:
+1. Fetch 2 years of daily OHLCV for BTC/USDT, ETH/USDT, SOL/USDT, BNB/USDT (ccxt)
+2. Test cointegration between pairs: compute log prices, run Engle-Granger test
+3. For cointegrated pairs: build spread = log(asset1) - beta * log(asset2)
+4. Backtest mean-reversion on the spread: enter at ±2σ, exit at 0
+5. Output: cointegration test results, spread chart description, backtest metrics per pair
+6. Compare: which pair gave the best Sharpe? How did it handle regime changes?
+
+Goal: Find at least 1 pair with Sharpe > 0.8 and >20 trades.

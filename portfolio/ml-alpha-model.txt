@@ -1,0 +1,11 @@
+Build a Machine Learning Alpha Model for crypto markets. Use XGBoost to predict 5-day forward returns on BTC/USDT.
+
+Steps:
+1. Fetch 2 years of daily BTC/USDT OHLCV from Binance via get_market_data (source=ccxt)
+2. Engineer features: returns (1d, 5d, 20d), volatility (20d std), volume ratio, RSI(14), MACD
+3. Train XGBoost with 80/20 time-series split (no shuffle — respect temporal order)
+4. Evaluate: IC mean, IC std, information ratio, hit rate
+5. Compare against buy-and-hold benchmark
+6. Output: feature importance plot description, performance table, run card
+
+Goal: Sharpe > 1.0, IC > 0.03. If not met, explain why and suggest improvements.

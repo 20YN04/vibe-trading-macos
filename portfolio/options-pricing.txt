@@ -1,0 +1,12 @@
+Build an Options Pricing Engine demo using crypto perpetual futures as underlying.
+
+Steps:
+1. Fetch 1 year of daily BTC/USDT OHLCV from Binance (ccxt)
+2. Estimate historical volatility (30d rolling, annualized)
+3. Calculate theoretical option prices using Black-Scholes: ATM call/put at current spot
+4. Compute Greeks: delta, gamma, theta, vega for the ATM options
+5. Show a mini options chain: ±20% around spot, 7d/30d/90d expiries
+6. Output: options chain table, Greeks table, volatility surface description
+
+Note: Crypto perps don't have listed options — this demonstrates pricing knowledge,
+not live trading. Mention this in the analysis.

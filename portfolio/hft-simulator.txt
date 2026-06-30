@@ -1,0 +1,13 @@
+Build an HFT Market Simulator demo (conceptual, not live trading).
+
+Steps:
+1. Fetch the most granular BTC/USDT data available from Binance: 1-minute OHLCV (ccxt)
+2. Simulate an order book: generate synthetic bid/ask levels around the mid-price with random spread
+3. Model latency: introduce a 5ms delay between signal and execution
+4. Simulate a simple HFT strategy: market-making — place bid at best_bid+1 tick, ask at best_ask-1 tick
+5. Track: fill rate, profit per fill, inventory risk (how often you're picked off)
+6. Compare 0ms vs 5ms vs 50ms latency scenarios
+7. Output: P&L per latency scenario, fill rate table, adverse selection analysis
+
+Note: This is a simplified conceptual demo. Real HFT requires tick-level data and co-location.
+This demonstrates understanding of market microstructure, not a production system.
