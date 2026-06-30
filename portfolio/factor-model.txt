@@ -1,0 +1,16 @@
+Build a Factor Model Portfolio Builder for crypto.
+
+Steps:
+1. Fetch daily OHLCV for top 20 crypto by market cap (ccxt, 2 years)
+2. Compute 5 factors for each asset:
+   - Value: inverse of 60d return (mean-reversion proxy)
+   - Momentum: 30d return
+   - Quality: inverse 60d volatility
+   - Size: inverse log(market cap)
+   - Volume: 20d volume trend
+3. Build equal-weighted factor portfolios: rank assets by each factor, take top 5
+4. Backtest each factor portfolio + combined multi-factor portfolio
+5. Output: per-factor Sharpe, max drawdown, correlation matrix, combined portfolio metrics
+6. Compare: does the combined portfolio outperform individual factors? BTC buy-and-hold?
+
+Goal: Combined portfolio Sharpe > 1.0, factor correlation < 0.5 between any two.

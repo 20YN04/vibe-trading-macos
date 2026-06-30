@@ -1,0 +1,15 @@
+Build a Constrained Portfolio Optimizer for crypto.
+
+Steps:
+1. Fetch 2 years of daily OHLCV for BTC, ETH, SOL, BNB, ADA, DOT, AVAX, MATIC (ccxt)
+2. Calculate annualized returns, covariance matrix
+3. Run mean-variance optimization (maximize Sharpe ratio) with constraints:
+   - Max 40% in any single asset
+   - Max 60% total in top 2 assets  
+   - Min 5% in any asset
+   - Max 200% turnover per rebalance
+4. Compare 3 rebalancing frequencies: daily, weekly, monthly
+5. Output: optimal weights per period, efficient frontier description, backtest metrics
+6. Show: does constrained optimization beat equal-weight? BTC-only?
+
+Goal: Optimized portfolio Sharpe > equal-weight Sharpe + 0.2.

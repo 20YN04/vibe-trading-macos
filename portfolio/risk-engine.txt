@@ -1,0 +1,12 @@
+Build a Risk Management System for a crypto portfolio.
+
+Steps:
+1. Use the combined portfolio from factor-model.txt (top 20 crypto, multi-factor)
+2. Calculate Value-at-Risk (VaR): historical simulation at 95% and 99% confidence
+3. Calculate Conditional VaR (CVaR / Expected Shortfall)
+4. Stress test: simulate 2022 bear market (-65% BTC drawdown), 2020 COVID crash
+5. Compute: max drawdown, longest drawdown period, Calmar ratio
+6. Output: VaR table, stress test P&L scenarios, risk metrics dashboard
+7. Suggest position sizing: Kelly criterion, equal risk contribution
+
+Goal: 99% daily VaR < 5% of portfolio, stress test max loss < 50%.

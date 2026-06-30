@@ -1,0 +1,12 @@
+Build a Crypto Arbitrage Bot demo.
+
+Steps:
+1. Fetch live BTC/USDT order books from Binance and OKX simultaneously (ccxt)
+2. Calculate arbitrage spread: OKX_bid - Binance_ask (and reverse)
+3. Simulate execution: account for 0.1% taker fee per side + estimated slippage
+4. Calculate net profit after fees for each arbitrage direction
+5. Fetch last 30 days of 1h OHLCV from both exchanges, backtest a simple arb strategy
+6. Output: current spread table, historical spread distribution, backtest P&L
+7. Mention: real arb requires <100ms latency, co-location. This demonstrates the concept.
+
+Goal: Find at least 1 profitable window (spread > 2× fees) in the 30-day backtest.
