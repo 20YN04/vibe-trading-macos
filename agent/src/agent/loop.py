@@ -1360,7 +1360,15 @@ class AgentLoop:
         return result or "", _elapsed_ms()
 
     def _is_tool_readonly(self, tool_name: str) -> bool:
-        """Return whether a tool is known to be side-effect free."""
+        """Return whether a tool is known to be side-effect free.
+
+        On macOS ARM, always returns False to force main-thread execution.
+        Apple Accelerate BLAS crashes (bus error) when numpy operations
+        run across multiple Python threads simultaneously.
+        """
+        import sys
+        if sys.platform == "darwin":
+            return False
         get_tool = getattr(self.registry, "get", None)
         if not callable(get_tool):
             return False
