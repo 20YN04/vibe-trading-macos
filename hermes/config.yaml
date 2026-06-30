@@ -1,0 +1,13 @@
+# Vibe-Trading MCP config for Hermes Agent
+# Copy to ~/.hermes/config.yaml under mcp_servers:
+
+mcp_servers:
+  vibe-trading:
+    transport: stdio
+    command: "vibe-trading-mcp"
+    workdir: "~/Projects/vibe-trading-macos"
+    env:
+      VECLIB_MAXIMUM_THREADS: "1"
+      ACCELERATE_NEW_LAPACK: "0"
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"

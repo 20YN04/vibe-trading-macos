@@ -1,0 +1,20 @@
+Research Autopilot: hypothesis-driven alpha discovery.
+
+Start with a hypothesis and let the agent run the full research loop.
+
+Example hypotheses:
+- "Momentum works better on large-cap crypto than small-cap"
+- "Low-volatility crypto outperform during bear markets"
+- "Volume precedes price: volume spikes predict 5-day returns"
+- "Cross-sectional mean reversion is stronger on weekends"
+
+The agent will:
+1. Formalize the hypothesis with testable criteria
+2. Load relevant market data
+3. Generate a signal engine
+4. Backtest the strategy
+5. Report: IC, Sharpe, drawdown, regime analysis
+6. Update the hypothesis based on results (reject, refine, or accept)
+7. Output: hypothesis registry entry + run card
+
+Goal: validate or reject 1 hypothesis per session.

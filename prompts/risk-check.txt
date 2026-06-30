@@ -1,0 +1,12 @@
+Portfolio risk assessment.
+
+Given the portfolio from factor-model results (or any portfolio):
+
+1. Calculate 95% and 99% daily VaR via historical simulation
+2. Calculate Conditional VaR (Expected Shortfall)
+3. Stress test: simulate -50% crash scenario, -70% bear market
+4. Compute: max drawdown, longest underwater period, Calmar ratio
+5. Run Monte Carlo simulation (1000 paths, 1-year horizon)
+6. Output: risk dashboard with all metrics, stress test P&L, MC distribution summary
+
+Goal: 99% VaR < 5%, stress test max loss < 50%.
